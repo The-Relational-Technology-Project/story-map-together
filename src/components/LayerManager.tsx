@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Plus, Eye, EyeOff, Trash2, Edit } from "lucide-react";
+import { Plus, Eye, EyeOff, Trash2 } from "lucide-react";
 import { Layer } from "./MappingWorkspace";
 
 interface LayerManagerProps {
@@ -35,21 +35,24 @@ export const LayerManager = ({
   };
 
   const layerPlaceholders = [
-    "Made with my daughter",
-    "Mutual aid landmarks", 
-    "Parent group spots",
-    "Places of wonder",
-    "Memory walks",
-    "Community gardens",
-    "Favorite corners"
+    "Late night crew",
+    "Protest routes", 
+    "Free food spots",
+    "Skate session",
+    "Dog walker gang",
+    "Sunrise spots",
+    "Secret places"
   ];
 
   return (
-    <Card className="h-full border-sage-200">
+    <Card className="h-full border-2 border-foreground">
       <CardHeader className="pb-4">
-        <CardTitle className="text-earth-800 hand-drawn text-xl">Layers</CardTitle>
-        <p className="text-sm text-sage-600">
-          Each layer tells a different story about your place
+        <CardTitle className="text-foreground font-mono text-xl flex items-center">
+          [LAYERS]
+          <div className="ml-2 w-2 h-2 bg-primary rounded-full animate-pulse" />
+        </CardTitle>
+        <p className="text-sm text-muted-foreground font-mono">
+          Each layer = different story/vibe
         </p>
       </CardHeader>
       
@@ -58,35 +61,35 @@ export const LayerManager = ({
         {!showAddForm ? (
           <Button
             onClick={() => setShowAddForm(true)}
-            className="w-full bg-coral-500 hover:bg-coral-600 text-white rounded-lg"
+            className="w-full bg-primary hover:bg-primary/80 text-primary-foreground rounded-sm font-mono font-bold"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Add New Layer
+            ADD LAYER
           </Button>
         ) : (
-          <div className="space-y-2 p-3 bg-coral-50 rounded-lg border border-coral-200">
+          <div className="space-y-2 p-3 bg-primary/10 rounded-sm border-2 border-primary border-dashed">
             <Input
               placeholder={layerPlaceholders[Math.floor(Math.random() * layerPlaceholders.length)]}
               value={newLayerName}
               onChange={(e) => setNewLayerName(e.target.value)}
               onKeyPress={(e) => e.key === 'Enter' && handleAddLayer()}
-              className="border-coral-300 focus:border-coral-500"
+              className="border-2 border-foreground focus:border-primary font-mono"
             />
             <div className="flex gap-2">
               <Button 
                 onClick={handleAddLayer}
                 size="sm"
-                className="flex-1 bg-coral-500 hover:bg-coral-600 text-white"
+                className="flex-1 bg-primary hover:bg-primary/80 text-primary-foreground font-mono"
               >
-                Create
+                CREATE
               </Button>
               <Button 
                 onClick={() => setShowAddForm(false)}
                 size="sm"
                 variant="outline"
-                className="border-coral-300 text-coral-700"
+                className="border-2 border-foreground font-mono"
               >
-                Cancel
+                X
               </Button>
             </div>
           </div>
@@ -97,18 +100,21 @@ export const LayerManager = ({
           {layers.map((layer) => (
             <div
               key={layer.id}
-              className={`p-3 rounded-lg border transition-all cursor-pointer ${
+              className={`p-3 rounded-sm border-2 transition-all cursor-pointer ${
                 activeLayerId === layer.id
-                  ? 'bg-sage-100 border-sage-400 shadow-sm'
-                  : 'bg-white border-sage-200 hover:bg-sage-50'
+                  ? 'bg-primary/20 border-primary shadow-sm'
+                  : 'bg-card border-foreground hover:bg-muted/50'
               }`}
               onClick={() => onLayerSelect(layer.id)}
             >
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-2 flex-1">
-                  <div className="hand-drawn font-medium text-earth-800">
+                  <div className="font-mono font-bold text-foreground">
                     {layer.name}
                   </div>
+                  {activeLayerId === layer.id && (
+                    <div className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+                  )}
                 </div>
                 
                 <div className="flex items-center gap-1">
@@ -119,12 +125,12 @@ export const LayerManager = ({
                       e.stopPropagation();
                       onToggleVisibility(layer.id);
                     }}
-                    className="h-8 w-8 p-0 hover:bg-sage-200"
+                    className="h-8 w-8 p-0 hover:bg-foreground hover:text-background"
                   >
                     {layer.visible ? (
-                      <Eye className="w-4 h-4 text-sage-600" />
+                      <Eye className="w-4 h-4" />
                     ) : (
-                      <EyeOff className="w-4 h-4 text-sage-400" />
+                      <EyeOff className="w-4 h-4" />
                     )}
                   </Button>
                   
@@ -136,15 +142,15 @@ export const LayerManager = ({
                         e.stopPropagation();
                         onDeleteLayer(layer.id);
                       }}
-                      className="h-8 w-8 p-0 hover:bg-coral-200"
+                      className="h-8 w-8 p-0 hover:bg-destructive hover:text-destructive-foreground"
                     >
-                      <Trash2 className="w-4 h-4 text-coral-600" />
+                      <Trash2 className="w-4 h-4" />
                     </Button>
                   )}
                 </div>
               </div>
               
-              <div className="text-xs text-sage-500 mt-1">
+              <div className="text-xs text-muted-foreground mt-1 font-mono">
                 {layer.drawings.length + layer.markers.length + layer.textBoxes.length} items
               </div>
             </div>
@@ -152,15 +158,15 @@ export const LayerManager = ({
         </div>
 
         {/* Layer Tips */}
-        <div className="mt-6 p-3 bg-earth-50 rounded-lg border border-earth-200">
-          <h4 className="text-sm font-medium text-earth-800 mb-2 hand-drawn">
-            Layer Ideas
+        <div className="mt-6 p-3 bg-secondary/20 rounded-sm border-2 border-secondary border-dashed">
+          <h4 className="text-sm font-mono font-bold text-foreground mb-2">
+            [LAYER IDEAS]
           </h4>
-          <div className="text-xs text-earth-600 space-y-1">
-            <div>• "This is where I got help"</div>
-            <div>• "Map of wonder"</div>
-            <div>• "Favorite walks"</div>
-            <div>• "Places we made together"</div>
+          <div className="text-xs text-muted-foreground font-mono space-y-1">
+            <div>→ "Midnight walks"</div>
+            <div>→ "Coffee shop wifi"</div>
+            <div>→ "Kid-friendly chaos"</div>
+            <div>→ "Community garden vibes"</div>
           </div>
         </div>
       </CardContent>

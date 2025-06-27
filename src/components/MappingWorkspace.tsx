@@ -5,7 +5,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { LayerManager } from "./LayerManager";
 import { DrawingCanvas } from "./DrawingCanvas";
 import { ToolPanel } from "./ToolPanel";
-import { ArrowLeft, Download, Printer, Undo, RotateCcw } from "lucide-react";
+import { ArrowLeft, Download, Printer } from "lucide-react";
 import { toast } from "sonner";
 
 export interface Layer {
@@ -30,11 +30,27 @@ export const MappingWorkspace = ({ backgroundImage }: MappingWorkspaceProps) => 
       drawings: [],
       markers: [],
       textBoxes: []
+    },
+    {
+      id: '2',
+      name: 'Made with my daughter',
+      visible: true,
+      drawings: [],
+      markers: [],
+      textBoxes: []
+    },
+    {
+      id: '3',
+      name: 'Surfer group',
+      visible: false,
+      drawings: [],
+      markers: [],
+      textBoxes: []
     }
   ]);
-  const [activeLayerId, setActiveLayerId] = useState('1');
+  const [activeLayerId, setActiveLayerId] = useState('2');
   const [activeTool, setActiveTool] = useState<'draw' | 'marker' | 'text' | 'select'>('select');
-  const [brushColor, setBrushColor] = useState('#d08f56');
+  const [brushColor, setBrushColor] = useState('#ff0080');
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const activeLayer = layers.find(layer => layer.id === activeLayerId);
@@ -96,21 +112,22 @@ export const MappingWorkspace = ({ backgroundImage }: MappingWorkspaceProps) => 
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-earth-50 via-sage-50 to-coral-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white/80 backdrop-blur-sm border-b border-sage-200 p-4">
-        <div className="flex items-center justify-between max-w-7xl mx-auto">
+      <header className="bg-card border-b-2 border-foreground p-4 relative">
+        <div className="absolute inset-0 bg-primary/5" />
+        <div className="flex items-center justify-between max-w-7xl mx-auto relative z-10">
           <div className="flex items-center gap-4">
             <Button 
               onClick={goBack}
-              variant="ghost" 
-              className="text-sage-700 hover:bg-sage-100"
+              variant="outline" 
+              className="text-foreground hover:bg-primary hover:text-primary-foreground font-mono border-2"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
+              BACK
             </Button>
-            <h1 className="text-2xl font-bold text-earth-800 hand-drawn">
-              Mapping Stories
+            <h1 className="text-3xl font-marker text-primary">
+              MAP/MAKE
             </h1>
           </div>
           
@@ -118,17 +135,17 @@ export const MappingWorkspace = ({ backgroundImage }: MappingWorkspaceProps) => 
             <Button 
               onClick={generatePrintable}
               variant="outline"
-              className="border-sage-300 text-sage-700 hover:bg-sage-50"
+              className="border-2 text-foreground hover:bg-accent hover:text-accent-foreground font-mono"
             >
               <Printer className="w-4 h-4 mr-2" />
-              Print
+              PRINT
             </Button>
             <Button 
               onClick={exportMap}
-              className="bg-earth-500 hover:bg-earth-600 text-white"
+              className="bg-primary hover:bg-primary/80 text-primary-foreground font-mono font-bold"
             >
               <Download className="w-4 h-4 mr-2" />
-              Download
+              EXPORT
             </Button>
           </div>
         </div>
@@ -136,7 +153,7 @@ export const MappingWorkspace = ({ backgroundImage }: MappingWorkspaceProps) => 
 
       <div className="flex h-[calc(100vh-80px)]">
         {/* Left Sidebar - Layers */}
-        <div className="w-80 bg-white/60 backdrop-blur-sm border-r border-sage-200 p-4 overflow-y-auto">
+        <div className="w-80 bg-card border-r-2 border-foreground p-4 overflow-y-auto">
           <LayerManager
             layers={layers}
             activeLayerId={activeLayerId}
@@ -148,7 +165,7 @@ export const MappingWorkspace = ({ backgroundImage }: MappingWorkspaceProps) => 
         </div>
 
         {/* Main Canvas Area */}
-        <div className="flex-1 relative">
+        <div className="flex-1 relative bg-muted/20">
           <DrawingCanvas
             ref={canvasRef}
             backgroundImage={backgroundImage}
@@ -161,7 +178,7 @@ export const MappingWorkspace = ({ backgroundImage }: MappingWorkspaceProps) => 
         </div>
 
         {/* Right Sidebar - Tools */}
-        <div className="w-80 bg-white/60 backdrop-blur-sm border-l border-sage-200 p-4">
+        <div className="w-80 bg-card border-l-2 border-foreground p-4">
           <ToolPanel
             activeTool={activeTool}
             onToolChange={setActiveTool}

@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,42 +19,17 @@ export default {
 		},
 		extend: {
 			colors: {
-				// Warm, neighborhood anarchist vine meets playground vibes
-				earth: {
-					50: '#fdf8f3',
-					100: '#f9f0e7',
-					200: '#f2ddc4',
-					300: '#e8c59e',
-					400: '#dba876',
-					500: '#d08f56',
-					600: '#c2794a',
-					700: '#a15f3e',
-					800: '#824e38',
-					900: '#6b422f',
+				// Edgy zine colors - neon, punk, but still playful
+				neon: {
+					pink: '#ff0080',
+					cyan: '#00ffff',
+					yellow: '#ffff00',
+					green: '#00ff80',
 				},
-				sage: {
-					50: '#f6f8f4',
-					100: '#eaf0e5',
-					200: '#d5e1cc',
-					300: '#b6cba5',
-					400: '#94b07a',
-					500: '#759058',
-					600: '#5c7044',
-					700: '#485836',
-					800: '#3b472e',
-					900: '#323d28',
-				},
-				coral: {
-					50: '#fef7f6',
-					100: '#fdedeb',
-					200: '#faddd9',
-					300: '#f6c2bb',
-					400: '#f19b8f',
-					500: '#e87665',
-					600: '#d45544',
-					700: '#b23e30',
-					800: '#93362b',
-					900: '#7a3128',
+				punk: {
+					black: '#0a0a0a',
+					white: '#fafafa',
+					gray: '#333333',
 				},
 				
 				border: 'hsl(var(--border))',
@@ -133,15 +107,25 @@ export default {
 						opacity: "1",
 						transform: "translateY(0)"
 					}
+				},
+				'glitch': {
+					'0%': { transform: 'translate(0)' },
+					'20%': { transform: 'translate(-2px, 2px)' },
+					'40%': { transform: 'translate(-2px, -2px)' },
+					'60%': { transform: 'translate(2px, 2px)' },
+					'80%': { transform: 'translate(2px, -2px)' },
+					'100%': { transform: 'translate(0)' }
 				}
 			},
 			animation: {
 				'accordion-down': 'accordion-down 0.2s ease-out',
 				'accordion-up': 'accordion-up 0.2s ease-out',
-				'fade-in': 'fade-in 0.3s ease-out'
+				'fade-in': 'fade-in 0.3s ease-out',
+				'glitch': 'glitch 0.3s infinite linear alternate-reverse'
 			},
 			fontFamily: {
-				'hand': ['Comic Neue', 'cursive'],
+				'mono': ['JetBrains Mono', 'monospace'],
+				'marker': ['Permanent Marker', 'cursive'],
 			}
 		}
 	},
