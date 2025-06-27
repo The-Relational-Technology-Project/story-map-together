@@ -1,5 +1,5 @@
 
-import { useState } from "react";
+import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Upload, MapPin, Zap, Users } from "lucide-react";
@@ -8,6 +8,7 @@ import { MappingWorkspace } from "@/components/MappingWorkspace";
 const Index = () => {
   const [uploadedImage, setUploadedImage] = useState<string | null>(null);
   const [showWorkspace, setShowWorkspace] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -19,6 +20,11 @@ const Index = () => {
       };
       reader.readAsDataURL(file);
     }
+  };
+
+  const triggerFileUpload = () => {
+    console.log("File upload button clicked");
+    fileInputRef.current?.click();
   };
 
   const startMapping = () => {
@@ -70,21 +76,20 @@ const Index = () => {
                   Screenshot from Maps, satellite view, whatever you got
                 </p>
                 
-                <label htmlFor="map-upload" className="cursor-pointer">
-                  <Button 
-                    type="button" 
-                    className="bg-primary hover:bg-primary/80 text-primary-foreground px-8 py-3 rounded-sm text-lg font-mono font-bold transform transition-all duration-200 hover:scale-105 hover:-rotate-1"
-                  >
-                    CHOOSE FILE
-                  </Button>
-                  <input
-                    id="map-upload"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileUpload}
-                    className="hidden"
-                  />
-                </label>
+                <Button 
+                  onClick={triggerFileUpload}
+                  className="bg-primary hover:bg-primary/80 text-primary-foreground px-8 py-3 rounded-sm text-lg font-mono font-bold transform transition-all duration-200 hover:scale-105 hover:-rotate-1"
+                >
+                  CHOOSE FILE
+                </Button>
+                
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileUpload}
+                  className="hidden"
+                />
               </div>
 
               {uploadedImage && (
